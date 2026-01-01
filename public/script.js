@@ -55,6 +55,7 @@
         gameList: document.getElementById('gameList'),
         gameFrame: document.getElementById('gameFrame'),
         gameLoading: document.getElementById('gameLoading'),
+        gamePlaceholder: document.getElementById('gamePlaceholder'),
         currentGameTitle: document.getElementById('currentGameTitle'),
         currentGameDesc: document.getElementById('currentGameDesc'),
         playtimeText: document.getElementById('playtimeText'),
@@ -297,10 +298,8 @@
         // Setup event listeners
         setupEventListeners();
         
-        // Select first game by default
-        if (state.games.length > 0) {
-            selectGame(state.games[0]);
-        }
+        // Don't auto-load a game - show placeholder instead
+        // User must click a game to load it
     }
 
     function checkSession() {
@@ -441,6 +440,12 @@
             state.playtimeTimer = null;
         }
 
+        // Validate game path exists and isn't the current page
+        if (!game.path || game.path === '/' || game.path === '/index.html') {
+            console.error('Invalid game path:', game.path);
+            return;
+        }
+
         // Update active state
         document.querySelectorAll('.game-card').forEach(card => {
             card.classList.remove('active');
@@ -449,7 +454,8 @@
             }
         });
 
-        // Show loading state
+        // Hide placeholder, show loading state
+        elements.gamePlaceholder.classList.add('hidden');
         elements.gameLoading.classList.add('visible');
         elements.gameFrame.classList.add('loading');
         
@@ -478,6 +484,13 @@
             
             // Start playtime tracking
             startPlaytimeTracking();
+        };
+
+        // Handle iframe error (game not found)
+        elements.gameFrame.onerror = () => {
+            elements.gameLoading.classList.remove('visible');
+            elements.gameFrame.classList.remove('loading');
+            console.error('Failed to load game:', game.path);
         };
     }
 

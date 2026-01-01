@@ -44,11 +44,16 @@
                 </aside>
                 <section class="game-view">
                     <div class="iframe-container" id="iframeContainer">
+                        <div class="game-placeholder" id="gamePlaceholder">
+                            <div class="placeholder-icon">🎮</div>
+                            <h3>SELECT A GAME</h3>
+                            <p>Choose a game from the list to start playing</p>
+                        </div>
                         <div class="game-loading" id="gameLoading">
                             <div class="loading-spinner"></div>
                             <span>LOADING GAME...</span>
                         </div>
-                        <iframe id="gameFrame" src="" frameborder="0" allowfullscreen></iframe>
+                        <iframe id="gameFrame" src="about:blank" frameborder="0" allowfullscreen></iframe>
                     </div>
                     <div class="game-info" id="gameInfo">
                         <h2 id="currentGameTitle">Select a Game</h2>

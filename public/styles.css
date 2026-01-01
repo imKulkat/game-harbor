@@ -605,6 +605,42 @@ body {
     animation: glitch 0.3s ease-out;
 }
 
+.game-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    z-index: 5;
+}
+
+.game-placeholder .placeholder-icon {
+    font-size: 64px;
+    filter: drop-shadow(0 0 20px var(--accent-cyan));
+    animation: logoGlow 3s ease-in-out infinite;
+}
+
+.game-placeholder h3 {
+    font-size: 18px;
+    letter-spacing: 4px;
+    color: var(--accent-cyan);
+    margin: 0;
+}
+
+.game-placeholder p {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.game-placeholder.hidden {
+    display: none;
+}
+
 .game-loading {
     position: absolute;
     top: 50%;
