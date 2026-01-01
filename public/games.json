@@ -4,27 +4,27 @@
     "name": "Starfall Survivor",
     "description": "Dual-mode auto shooter with roguelike elements. Survive waves of enemies in space.",
     "thumbnail": "assets/thumbnails/starfall.png",
-    "path": "/starfall-survivor/"
+    "url": "https://games.vesastar.top/starfall-survivor/"
   },
   {
     "id": "neon-racer",
     "name": "Neon Racer",
     "description": "High-speed cyberpunk racing through neon-lit cityscapes.",
     "thumbnail": "assets/thumbnails/neon-racer.png",
-    "path": "/neon-racer/"
+    "url": "https://games.vesastar.top/neon-racer/"
   },
   {
     "id": "pixel-dungeon",
     "name": "Pixel Dungeon",
     "description": "Classic dungeon crawler with procedurally generated levels.",
     "thumbnail": "assets/thumbnails/pixel-dungeon.png",
-    "path": "/pixel-dungeon/"
+    "url": "https://games.vesastar.top/pixel-dungeon/"
   },
   {
     "id": "cyber-chess",
     "name": "Cyber Chess",
     "description": "Strategic chess with a cyberpunk twist and special abilities.",
     "thumbnail": "assets/thumbnails/cyber-chess.png",
-    "path": "/cyber-chess/"
+    "url": "https://games.vesastar.top/cyber-chess/"
   }
 ]

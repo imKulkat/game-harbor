@@ -328,28 +328,28 @@
             state.games = await response.json();
         } catch (error) {
             console.error('Error loading games:', error);
-            // Fallback demo games
+            // Fallback demo games with full URLs
             state.games = [
                 {
                     id: 'starfall-survivor',
                     name: 'Starfall Survivor',
                     description: 'Dual-mode auto shooter with roguelike elements.',
                     thumbnail: 'assets/thumbnails/starfall.png',
-                    path: '/starfall-survivor/'
+                    url: 'https://games.vesastar.top/starfall-survivor/'
                 },
                 {
                     id: 'neon-racer',
                     name: 'Neon Racer',
                     description: 'High-speed cyberpunk racing game.',
                     thumbnail: 'assets/thumbnails/neon-racer.png',
-                    path: '/neon-racer/'
+                    url: 'https://games.vesastar.top/neon-racer/'
                 },
                 {
                     id: 'pixel-dungeon',
                     name: 'Pixel Dungeon',
                     description: 'Classic dungeon crawler adventure.',
                     thumbnail: 'assets/thumbnails/pixel-dungeon.png',
-                    path: '/pixel-dungeon/'
+                    url: 'https://games.vesastar.top/pixel-dungeon/'
                 }
             ];
         }
@@ -446,10 +446,30 @@
             state.playtimeTimer = null;
         }
 
-        // Validate game path exists and isn't the current page
-        if (!game.path || game.path === '/' || game.path === '/index.html') {
-            console.error('Invalid game path:', game.path);
+        // Get game URL (support both 'url' and legacy 'path' properties)
+        const gameUrl = game.url || game.path;
+
+        // Validate game URL - must be absolute URL or valid path
+        if (!gameUrl) {
+            console.error('No URL defined for game:', game.id);
+            showGameError('Game URL not configured');
             return;
+        }
+
+        // Prevent loading the current page
+        const currentUrl = window.location.href;
+        const currentOrigin = window.location.origin;
+        if (gameUrl === '/' || gameUrl === '/index.html' || gameUrl === currentUrl) {
+            console.error('Invalid game URL (same as launcher):', gameUrl);
+            showGameError('Invalid game URL');
+            return;
+        }
+
+        // If it's a relative path on the same origin, it will cause recursion
+        // Only allow absolute URLs to external origins or properly configured paths
+        const isAbsoluteUrl = gameUrl.startsWith('http://') || gameUrl.startsWith('https://');
+        if (!isAbsoluteUrl) {
+            console.warn('Relative URL detected - games should use absolute URLs to prevent recursion');
         }
 
         // Update active state
@@ -460,8 +480,9 @@
             }
         });
 
-        // Hide placeholder, show loading state
+        // Hide placeholder and error, show loading state
         elements.gamePlaceholder.classList.add('hidden');
+        if (elements.gameError) elements.gameError.classList.add('hidden');
         elements.gameLoading.classList.add('visible');
         elements.gameFrame.classList.add('loading');
         
@@ -481,7 +502,7 @@
 
         // Load game
         state.currentGame = game;
-        elements.gameFrame.src = game.path;
+        elements.gameFrame.src = gameUrl;
         
         // Handle iframe load
         elements.gameFrame.onload = () => {
@@ -496,8 +517,20 @@
         elements.gameFrame.onerror = () => {
             elements.gameLoading.classList.remove('visible');
             elements.gameFrame.classList.remove('loading');
-            console.error('Failed to load game:', game.path);
+            showGameError('Failed to load game');
+            console.error('Failed to load game:', gameUrl);
         };
+    }
+
+    function showGameError(message) {
+        elements.gamePlaceholder.classList.remove('hidden');
+        const icon = elements.gamePlaceholder.querySelector('.placeholder-icon');
+        const title = elements.gamePlaceholder.querySelector('h3');
+        const desc = elements.gamePlaceholder.querySelector('p');
+        
+        if (icon) icon.textContent = '⚠';
+        if (title) title.textContent = 'GAME UNAVAILABLE';
+        if (desc) desc.textContent = message || 'The game could not be loaded. Check that the URL is correct.';
     }
 
     function startPlaytimeTracking() {
