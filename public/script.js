@@ -286,6 +286,12 @@
     // INITIALIZATION
     // ========================================
     async function init() {
+        // Hide intro after animation completes
+        const introOverlay = document.getElementById('introOverlay');
+        setTimeout(() => {
+            introOverlay.classList.add('hidden');
+        }, 3500); // Matches animation duration
+
         // Check for existing session
         checkSession();
         
