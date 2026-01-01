@@ -14,7 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          level: number
+          updated_at: string
+          user_id: string
+          username: string
+          xp: number
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          level?: number
+          updated_at?: string
+          user_id: string
+          username: string
+          xp?: number
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          level?: number
+          updated_at?: string
+          user_id?: string
+          username?: string
+          xp?: number
+        }
+        Relationships: []
+      }
+      quests: {
+        Row: {
+          completed: boolean
+          created_at: string
+          description: string
+          expires_at: string
+          id: string
+          title: string
+          user_id: string
+          xp_reward: number
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string
+          description: string
+          expires_at: string
+          id?: string
+          title: string
+          user_id: string
+          xp_reward?: number
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string
+          description?: string
+          expires_at?: string
+          id?: string
+          title?: string
+          user_id?: string
+          xp_reward?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
